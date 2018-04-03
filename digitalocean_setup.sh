@@ -1,3 +1,12 @@
+#!/bin/bash
+#
+# Script to set up DigitalOcean Server
+# for android ROM building
+#
+# Made by Adithya R (ghostrider-reborn)
+#
+
+# Go to home dir
 cd ~
 
 # Install the dependencies
