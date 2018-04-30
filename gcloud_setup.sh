@@ -11,14 +11,14 @@ cd ~
 
 # Install the dependencies
 sudo apt-get update
-sudo apt-get install -y bc bison build-essential curl flex g++-multilib gcc-multilib git gnupg gperf imagemagick lib32ncurses5-dev lib32readline6-dev lib32z1-dev libesd0-dev liblz4-tool libncurses5-dev libsdl1.2-dev libwxgtk3.0-dev libxml2 libxml2-utils lzop pngcrush schedtool squashfs-tools xsltproc zip zlib1g-dev unzip openjdk-8-jdk python
+sudo apt-get install --yes --force-yes bc bison build-essential curl flex g++-multilib gcc-multilib git gnupg gperf imagemagick lib32ncurses5-dev lib32readline6-dev lib32z1-dev libesd0-dev liblz4-tool libncurses5-dev libsdl1.2-dev libwxgtk3.0-dev libxml2 libxml2-utils lzop pngcrush schedtool squashfs-tools xsltproc zip zlib1g-dev unzip openjdk-8-jdk python
 sudo apt-get upgrade
 
 # Install libtinfo6 (required for GCC 7.x and above)
 wget http://ftp.us.debian.org/debian/pool/main/n/ncurses/lib32tinfo6_6.1+20180210-1_amd64.deb
-dpkg -i lib32tinfo6_6.1+20180210-1_amd64.deb
+sudo dpkg -i lib32tinfo6_6.1+20180210-1_amd64.deb
 wget http://ftp.us.debian.org/debian/pool/main/n/ncurses/libtinfo6_6.1+20180210-1_amd64.deb
-dpkg -i libtinfo6_6.1+20180210-1_amd64.deb
+sudo dpkg -i libtinfo6_6.1+20180210-1_amd64.deb
 
 # Install Android SDK
 wget https://dl.google.com/android/repository/platform-tools-latest-linux.zip
