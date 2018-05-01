@@ -73,6 +73,14 @@ EOT
 source ~/.profile
 source ~/.bashrc
 
+# Install GDrive CLI
+echo
+echo =========Installing GDrive============
+echo
+wget -O gdrive "https://docs.google.com/uc?id=0B3X9GlR6EmbnWksyTEtCM0VfaFE&export=download"
+chmod +x gdrive
+sudo install gdrive /usr/local/bin/gdrive
+
 # Configure git
 echo    
 echo ===========Configuring git=============
