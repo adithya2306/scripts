@@ -10,13 +10,14 @@
 cd ~
 
 # Install the dependencies
-echo ==========Updating system==============
-echo   
-sudo apt-get update
 echo   
 echo =========Installing dependencies========
 echo    
+sudo apt-get update
 sudo apt-get install --yes --force-yes bc bison build-essential curl flex g++-multilib gcc-multilib git gnupg gperf imagemagick lib32ncurses5-dev lib32readline6-dev lib32z1-dev libesd0-dev liblz4-tool libncurses5-dev libsdl1.2-dev libwxgtk3.0-dev libxml2 libxml2-utils lzop pngcrush schedtool squashfs-tools xsltproc zip zlib1g-dev unzip openjdk-8-jdk python
+echo
+echo ==========Updating system==============
+echo   
 sudo apt-get upgrade
 
 # Install libtinfo6 (required for GCC 7.x and above)
@@ -42,6 +43,7 @@ echo
 mkdir bin
 curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
 chmod a+x ~/bin/repo
+sudo install repo /usr/local/bin/repo
 
 # Add env variables to bashrc
 echo    
@@ -78,7 +80,7 @@ echo
 echo =========Installing GDrive============
 echo
 wget -O gdrive "https://docs.google.com/uc?id=0B3X9GlR6EmbnWksyTEtCM0VfaFE&export=download"
-chmod +x gdrive
+chmod a+x gdrive
 sudo install gdrive /usr/local/bin/gdrive
 
 # Configure git
@@ -86,7 +88,7 @@ echo
 echo ===========Configuring git=============
 echo    
 git config --global user.email "adithya.r02@outlook.com"
-git config --global user.name "Adithya R"
+git config --global user.name "Ad!thya R"
 git config --global alias.cp 'cherry-pick -s'
 git config --global alias.c 'commit -s'
 
