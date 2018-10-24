@@ -12,7 +12,7 @@ do
     git clone -b $i-caf/msm8916 $HALS_REPO hardware/qcom/$i-caf/msm8916
 done
 
-for j in "keymaster" "ril-caf" "wlan-caf" "bt-caf"
+for j in "keymaster" "wlan-caf" "bt-caf"
 do
     echo -e "\n====== CLONING MSM8916 $j HAL ======\n"
     rm -rf hardware/qcom/$j
