@@ -1,7 +1,7 @@
 #!/bin/bash
 #
-# Script to set up DigitalOcean Server
-# for android ROM building
+# Script to set up an Ubuntu 18.04 DigitalOcean Server
+# for android ROM compiling
 #
 # Made by Adithya R (ghostrider-reborn)
 #
@@ -10,19 +10,24 @@
 cd ~
 
 # Install the dependencies
+echo -e "\n================== INSTALLING PACKAGES ==================\n"
 sudo apt-get update
 sudo apt-get install -y bc bison build-essential curl flex g++-multilib gcc-multilib git gnupg gperf imagemagick lib32ncurses5-dev lib32readline-dev lib32z1-dev liblz4-tool libncurses5-dev libsdl1.2-dev libwxgtk3.0-dev libxml2 libxml2-utils lzop pngcrush schedtool squashfs-tools xsltproc zip zlib1g-dev unzip openjdk-8-jdk python ccache
 sudo apt-get upgrade -y
 
 # Install Android SDK
+echo -e "\n================== INSTALLING ANDROID SDK ==================\n"
 wget https://dl.google.com/android/repository/platform-tools-latest-linux.zip
 unzip platform-tools-latest-linux.zip
+rm platform-tools-latest-linux.zip
 
 # Install repo
+echo -e "\n================== INSTALLING GIT-REPO ==================\n"
 mkdir bin
 curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
 chmod a+x ~/bin/repo
 
+echo -e "\n================== SETTING UP BASHRC & .PROFILE ==================\n"
 # Add env variables to bashrc
 cat <<'EOF' >> ~/.bashrc
 
@@ -49,14 +54,15 @@ EOF
 # Set env from .bashrc and .profile
 source ~/.profile
 source ~/.bashrc
+echo "Done"
 
 # Configure git
+echo -e "\n================== CONFIGURING GIT ==================\n"
 git config --global user.email "gh0strider.2k18.reborn@gmail.com"
 git config --global user.name "Adithya R"
 git config --global alias.cp 'cherry-pick'
 git config --global alias.c 'commit'
+echo "Done"
 
 # Done!
-echo
-echo "All done. Now sync sauces & start baking!"
-echo
+echo -e "\nALL DONE. Now sync sauces & start baking!\n"
