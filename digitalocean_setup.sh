@@ -74,6 +74,8 @@ git config --global user.email "gh0strider.2k18.reborn@gmail.com"
 git config --global user.name "Adithya R"
 git config --global alias.cp 'cherry-pick'
 git config --global alias.c 'commit'
+git config --global credential.helper cache
+git config --global credential.helper 'cache --timeout=9999999'
 echo "Done"
 
 # Done!
