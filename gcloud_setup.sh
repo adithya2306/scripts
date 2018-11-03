@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # Script to set up Google Cloud Server
-# for android ROM building
+# for android ROM compiling
 #
 # Made by Adithya R (ghostrider-reborn)
 #
@@ -9,106 +9,69 @@
 # Go to home dir
 cd ~
 
-# Install the dependencies
-echo   
-echo =========Installing dependencies========
-echo    
+# Installing packages
+echo -e "\n================== INSTALLING & CONFIGURING PACKAGES ==================\n"
 sudo apt-get update
-sudo apt-get install --yes --force-yes bc bison build-essential curl flex g++-multilib gcc-multilib git gnupg gperf imagemagick lib32ncurses5-dev lib32readline6-dev lib32z1-dev libesd0-dev liblz4-tool libncurses5-dev libsdl1.2-dev libwxgtk3.0-dev libxml2 libxml2-utils lzop pngcrush schedtool squashfs-tools xsltproc zip zlib1g-dev unzip openjdk-8-jdk python
-echo
-echo ================Done====================
-echo
-echo ==========Updating system==============
-echo   
-sudo apt-get upgrade
-echo
-echo ================Done====================
+sudo apt-get install -y bc bison build-essential curl flex g++-multilib gcc-multilib git gnupg gperf imagemagick lib32ncurses5-dev lib32readline-dev lib32z1-dev liblz4-tool libncurses5-dev libsdl1.2-dev libwxgtk3.0-dev libxml2 libxml2-utils lzop pngcrush schedtool squashfs-tools xsltproc zip zlib1g-dev unzip openjdk-8-jdk python ccache
+sudo apt-get upgrade -y
 
-# Install libtinfo6 (required for GCC 7.x and above)
-echo    
-echo ==========Installing libtinfo6============
-echo      
-wget http://ftp.debian.org/debian/pool/main///n/ncurses/lib32tinfo6_6.1+20180210-2_amd64.deb
-sudo dpkg -i lib32tinfo6_6.1+20180210-2_amd64.deb
-wget http://ftp.debian.org/debian/pool/main///n/ncurses/libtinfo6_6.1+20180210-2_amd64.deb
-sudo dpkg -i libtinfo6_6.1+20180210-2_amd64.deb
-echo
-echo ================Done====================
+# CCache hax (unlimited ccache)
+ccache -M 500G
 
 # Install Android SDK
-echo   
-echo ===========Installing Android SDK===========
-echo   
+echo -e "\n================== INSTALLING ANDROID SDK ==================\n"
 wget https://dl.google.com/android/repository/platform-tools-latest-linux.zip
 unzip platform-tools-latest-linux.zip
-echo
-echo ================Done====================
+rm platform-tools-latest-linux.zip
 
 # Install repo
-echo   
-echo ===========Installing repo tool==============
-echo    
+echo -e "\n================== INSTALLING GIT-REPO ==================\n"
 mkdir bin
 curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
 chmod a+x ~/bin/repo
-sudo install repo /usr/local/bin/repo
-echo
-echo ================Done====================
 
-# Add env variables to bashrc
-echo    
-echo ========Updating bashrc and .profile===========
-echo     
-cat <<EOT >> ~/.bashrc
+# Install google drive command line tool
+echo -e "\n================== INSTALLING GDRIVE CLI ==================\n"
+wget -O gdrive "https://docs.google.com/uc?id=0B3X9GlR6EmbnWksyTEtCM0VfaFE&export=download"
+chmod a+x gdrive
+sudo install gdrive /usr/local/bin/gdrive
 
-export USE_CCACHE=1
-export JACK_SERVER_VM_ARGUMENTS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation"
-export ANDROID_JACK_VM_ARGS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation"
-export JAVA_TOOL_OPTIONS="-Dfile.encoding=UTF8"
-EOT
+# Add env variables & functions to bashrc
+echo -e "\n================== SETTING UP BASHRC & .PROFILE ==================\n"
+cat <<'EOF' >> ~/.bashrc
+
+transfer() { if [ $# -eq 0 ]; then echo -e "No arguments specified. Usage:\necho transfer /tmp/test.md\ncat /tmp/test.md | transfer test.md"; return 1; fi 
+tmpfile=$( mktemp -t transferXXX ); if tty -s; then basefile=$(basename "$1" | sed -e 's/[^a-zA-Z0-9._-]/-/g'); curl --progress-bar --upload-file "$1" "https://transfer.sh/$basefile" >> $tmpfile; else curl --progress-bar --upload-file "-" "https://transfer.sh/$1" >> $tmpfile ; fi; cat $tmpfile; rm -f $tmpfile; } 
+EOF
 
 # Add ~/bin and sdk to path
-cat <<EOT >> ~/.profile
+cat <<'EOF' >> ~/.profile
 
-# set PATH so it includes user's private bin if it exists
+# set PATH so it includes user's bin if it exists
 if [ -d "$HOME/bin" ] ; then
     PATH="$HOME/bin:$PATH"
 fi
 
-# add Android SDK platform tools to path
+# Add Android SDK platform tools to path
 if [ -d "$HOME/platform-tools" ] ; then
     PATH="$HOME/platform-tools:$PATH"
 fi
-EOT
+EOF
 
 # Set env from .bashrc and .profile
 source ~/.profile
 source ~/.bashrc
-echo
-echo ================Done====================
-
-# Install GDrive CLI
-echo
-echo =========Installing GDrive============
-echo
-wget -O gdrive "https://docs.google.com/uc?id=0B3X9GlR6EmbnWksyTEtCM0VfaFE&export=download"
-chmod a+x gdrive
-sudo install gdrive /usr/local/bin/gdrive
-echo
-echo ================Done====================
+echo "Done"
 
 # Configure git
-echo    
-echo ===========Configuring git=============
-echo    
-git config --global user.email "adithya.r02@outlook.com"
-git config --global user.name "Ad!thya R"
-git config --global alias.cp 'cherry-pick -s'
-git config --global alias.c 'commit -s'
-echo
-echo ================Done====================
+echo -e "\n================== CONFIGURING GIT ==================\n"
+git config --global user.email "gh0strider.2k18.reborn@gmail.com"
+git config --global user.name "Adithya R"
+git config --global alias.cp 'cherry-pick'
+git config --global alias.c 'commit'
+git config --global credential.helper cache
+git config --global credential.helper 'cache --timeout=9999999'
+echo "Done"
 
 # Done!
-echo
-echo ========== Everything done. =============
-echo
+echo -e "\nALL DONE. Now sync sauces & start baking!\n"
