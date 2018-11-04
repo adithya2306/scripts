@@ -36,8 +36,8 @@ wget -O gdrive "https://docs.google.com/uc?id=0B3X9GlR6EmbnWksyTEtCM0VfaFE&expor
 chmod a+x gdrive
 sudo install gdrive /usr/local/bin/gdrive
 
-# Add env variables & functions to bashrc
-echo -e "\n================== SETTING UP BASHRC & .PROFILE ==================\n"
+# Set up environment
+echo -e "\n================== SETTING UP ENV ==================\n"
 cat <<'EOF' >> ~/.bashrc
 
 transfer() { if [ $# -eq 0 ]; then echo -e "No arguments specified. Usage:\necho transfer /tmp/test.md\ncat /tmp/test.md | transfer test.md"; return 1; fi 
@@ -57,6 +57,9 @@ if [ -d "$HOME/platform-tools" ] ; then
     PATH="$HOME/platform-tools:$PATH"
 fi
 EOF
+
+# Set time zone to IST
+sudo ln -sf /usr/share/zoneinfo/Asia/Calcutta /etc/localtime
 
 # Set env from .bashrc and .profile
 source ~/.profile
