@@ -26,9 +26,9 @@ rm platform-tools-latest-linux.zip
 
 # Install repo
 echo -e "\n================== INSTALLING GIT-REPO ==================\n"
-mkdir bin
-curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
-chmod a+x ~/bin/repo
+wget https://storage.googleapis.com/git-repo-downloads/repo
+chmod a+x repo
+sudo install repo /usr/local/bin/repo
 
 # Install google drive command line tool
 echo -e "\n================== INSTALLING GDRIVE CLI ==================\n"
@@ -40,28 +40,30 @@ echo -e "\n================== SETTING UP BASHRC & .PROFILE ==================\n"
 # Add env variables & functions to bashrc
 cat <<'EOF' >> ~/.bashrc
 
+# Upload a file to transfer.sh
+transfer() { if [ $# -eq 0 ]; then echo -e "No arguments specified. Usage:\necho transfer /tmp/test.md\ncat /tmp/test.md | transfer test.md"; return 1; fi 
+tmpfile=$( mktemp -t transferXXX ); if tty -s; then basefile=$(basename "$1" | sed -e 's/[^a-zA-Z0-9._-]/-/g'); curl --progress-bar --upload-file "$1" "https://transfer.sh/$basefile" >> $tmpfile; else curl --progress-bar --upload-file "-" "https://transfer.sh/$1" >> $tmpfile ; fi; cat $tmpfile; rm -f $tmpfile; } 
+
+# Super-fast repo sync
+repofastsync() { schedtool -B -n 1 -e ionice -n 1 `which repo` sync -c -f --force-sync --optimized-fetch --no-tags --no-clone-bundle --prune -j8 "$@"; }
+
 export USE_CCACHE=1
 export JACK_SERVER_VM_ARGUMENTS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx6144m"
 export ANDROID_JACK_VM_ARGS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx6144m"
 export JAVA_TOOL_OPTIONS="-Dfile.encoding=UTF8 -Xmx6144m"
-
-transfer() { if [ $# -eq 0 ]; then echo -e "No arguments specified. Usage:\necho transfer /tmp/test.md\ncat /tmp/test.md | transfer test.md"; return 1; fi 
-tmpfile=$( mktemp -t transferXXX ); if tty -s; then basefile=$(basename "$1" | sed -e 's/[^a-zA-Z0-9._-]/-/g'); curl --progress-bar --upload-file "$1" "https://transfer.sh/$basefile" >> $tmpfile; else curl --progress-bar --upload-file "-" "https://transfer.sh/$1" >> $tmpfile ; fi; cat $tmpfile; rm -f $tmpfile; } 
 EOF
 
-# Add ~/bin and sdk to path
+# Add android sdk to path
 cat <<'EOF' >> ~/.profile
-
-# set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/bin" ] ; then
-    PATH="$HOME/bin:$PATH"
-fi
 
 # add Android SDK platform tools to path
 if [ -d "$HOME/platform-tools" ] ; then
     PATH="$HOME/platform-tools:$PATH"
 fi
 EOF
+
+# Set time zone to IST
+sudo ln -sf /usr/share/zoneinfo/Asia/Calcutta /etc/localtime
 
 # Set env from .bashrc and .profile
 source ~/.profile
