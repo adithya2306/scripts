@@ -29,7 +29,9 @@ if [ $? -eq 0 ]; then
     gdrive upload $CR_DIR/out/target/product/lettuce/crDroidAndroid-9.0-$BUILDDATE-*
     if [ $? -eq 0 ]; then
         echo -e "\nERROR occured while uploading ROM zip to gdrive :< EXITING ..."
+        exit 1
     fi
 else
     echo -e "\nERROR OCCURED DURING COMPILATION :'( EXITING ..."
+    exit 1
 fi
