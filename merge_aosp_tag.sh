@@ -13,7 +13,9 @@ CAF_REMOTE=$3
 
 if [[ $REPO_REMOTE != $AOSP_REMOTE && $REPO_REMOTE != $CAF_REMOTE ]]; then
         # Check if it is a repo which is forked from AOSP
-        if [[ $(wget -q --spider https://android.googlesource.com/platform/$REPO_PATH) -eq 0 ]]; then
+        wget -q --spider https://android.googlesource.com/platform/$REPO_PATH
+
+        if [ $? -eq 0 ]; then
                 # Find branch name from manifest & checkout
                 branch=$(sed 's|refs\/heads\/||' <<< $REPO_RREV)
                 git checkout -q $branch
