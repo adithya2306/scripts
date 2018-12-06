@@ -12,6 +12,10 @@ AOSP_REMOTE=$2
 CAF_REMOTE=$3
 
 if [[ $REPO_REMOTE != $AOSP_REMOTE && $REPO_REMOTE != $CAF_REMOTE ]]; then
+
+        # Workaround for build/make as it lies in "platform/build" repo in AOSP
+        if [[ $REPO_PATH = "build/make" ]]; then REPO_PATH="build"; fi
+            
         # Check if it is a repo which is forked from AOSP
         wget -q --spider https://android.googlesource.com/platform/$REPO_PATH
 
