@@ -3,7 +3,8 @@
 # Script to set up an Ubuntu 18.04 DigitalOcean Server
 # for android ROM compiling
 #
-# Made by Adithya R (ghostrider-reborn)
+# Usage:
+#	./digitalocean_setup.sh
 #
 
 # Go to home dir
@@ -81,4 +82,4 @@ git config --global credential.helper 'cache --timeout=9999999'
 echo "Done"
 
 # Done!
-echo -e "\nALL DONE. Now sync sauces & start baking!\n"
+echo -e "\nALL DONE. Now sync sauces & start baking! \n"
