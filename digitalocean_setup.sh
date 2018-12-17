@@ -1,7 +1,7 @@
 #!/bin/bash
 #
-# Script to set up an Ubuntu 18.04 DigitalOcean Server
-# for android ROM compiling
+# Script to set up an Ubuntu 18.04+ DigitalOcean
+# server for android ROM compiling
 #
 # Usage:
 #	./digitalocean_setup.sh

@@ -1,7 +1,7 @@
 #!/bin/bash
 #
-# Script to set up Google Cloud Server
-# for android ROM compiling
+# Script to set up Ubuntu 18.04+ Google Cloud
+# server for android ROM compiling
 #
 # Usage:
 #	./gcloud_setup.sh
