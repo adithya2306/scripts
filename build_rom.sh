@@ -44,11 +44,11 @@ if [ -n "$CCACHE_DIR" ]; then export CCACHE_DIR=$CCACHE_DIR; else CCACHE_DIR="$H
 
 if [ -n "$OUT_DIR" ]; then export OUT_DIR_COMMON_BASE=$OUT_DIR; else OUT_DIR=out; fi
 
-# Set java compilation mem usage limit to 4GB if system has RAM lesser than 18GB
-if [ $(($(grep MemTotal /proc/meminfo | awk '{print $2}')/(1024 * 1024))) -lt 18 ]; then
-    export JACK_SERVER_VM_ARGUMENTS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx4g"
-    export ANDROID_JACK_VM_ARGS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx4g"
-    export JAVA_TOOL_OPTIONS="-Dfile.encoding=UTF8 -XX:+TieredCompilation -Xmx4g"
+# Set java compilation mem usage limit to half if system has RAM lesser than 16GB
+memsize=$(($(grep MemTotal /proc/meminfo | awk '{print $2}')/(1024 * 1024)))
+if [ $memsize -lt 16 ]; then
+    export JACK_SERVER_VM_ARGUMENTS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx$(($memsize/2))g"
+    export ANDROID_JACK_VM_ARGS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx$(($memsize/2))g"
 fi
 
 # Enable CCACHE
