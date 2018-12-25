@@ -71,8 +71,9 @@ lunch $LUNCH
 
 # Equivalent of "mka" command, modified to use 2 x (no. of cores) threads for compilation
 schedtool -B -n 1 -e ionice -n 1 make -j$(($(nproc --all) * 2)) $MAKE_TARGET
+result=$?
 
-if [ $? -eq 0 ] && [[ $MAKE_TARGET != "bootimage" ]]; then
+if [ $result -eq 0 ] && [[ $MAKE_TARGET != "bootimage" ]]; then
     echo -e "\nROM compiled succesfully :-) Now uploading ROM zip to transfer.sh ...\n"
 
     if [ $(ls $OUT_DIR/target/product/$DEVICE/*.zip | wc -l) -gt 1 ]; then
@@ -87,7 +88,9 @@ if [ $? -eq 0 ] && [[ $MAKE_TARGET != "bootimage" ]]; then
     rm -rf $OUT_DIR/target/product/$DEVICE/*.zip*
     echo -e "ROM zip copied here; deleted from outdir. Good bye! \n"
     exit 0
+elif [ $result -eq 0 ]; then
+    echo -e "\n $MAKE_TARGET compiled succesfully :-) Good bye! \n"
 else
-    echo -e "\nERROR OCCURED DURING COMPILATION :'( EXITING ..."
+    echo -e "\nERROR OCCURED DURING COMPILATION :'( EXITING ... \n"
     exit 1
 fi
