@@ -5,6 +5,7 @@ read -p "Enter branch name of device tree (default lineage-16.0): " DEVICE_BRANC
 read -p "Enter branch name of remaining trees (default lineage-16.0): " BRANCH
 
 ORGANIZATION='https://github.com/lettuce-pie'
+
 if [ -z "$BRANCH"]; then BRANCH="lineage-16.0"; fi
 if [ -z "$DEVICE_BRANCH"]; then DEVICE_BRANCH="lineage-16.0"; fi
 
