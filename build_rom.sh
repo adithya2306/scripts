@@ -82,11 +82,16 @@ if [ $result -eq 0 ] && [[ $MAKE_TARGET != "bootimage" ]]; then
         zippath=$(ls $OUT_DIR/target/product/$DEVICE/*.zip)
     fi
 
-    echo -e "ROM zip uploaded succesfully to $(curl -sT $zippath https://transfer.sh/$(basename $zippath)) \n"
+    if [ -x "$(command -v gdrive)" ]; then
+        echo -e "Uploading ROM to Google Drive using gdrive CLI ..."
+        gdrive upload --share $zippath
+    else
+        echo -e "ROM zip uploaded succesfully to $(curl -sT $zippath https://transfer.sh/$(basename $zippath))"
+    fi
 
     cp $zippath .
     rm -rf $OUT_DIR/target/product/$DEVICE/*.zip*
-    echo -e "ROM zip copied here; deleted from outdir. Good bye! \n"
+    echo -e "\nROM zip copied here; deleted from outdir. Good bye! \n"
     exit 0
 elif [ $result -eq 0 ]; then
     echo -e "\n $MAKE_TARGET compiled succesfully :-) Good bye! \n"
