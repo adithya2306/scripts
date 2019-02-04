@@ -10,9 +10,7 @@ Feel free to fork it for your own use, and I'm open to PRs if you'd like to impr
 
 * `clone_lettuce_repos.sh`: Clones my Android Pie device sources for lettuce
 
-* `digitalocean_setup.sh`: Sets up an Ubuntu 18.04+ DigitalOcean server for android compilation
-
-* `gcloud_setup.sh`: Sets up an Ubuntu 18.04+ Google Cloud server for android compilation
+* `ubuntu_setup.sh`: Sets up an Ubuntu 18.04+ server or PC for android builds
 
 * `merge_aosp_tag.sh`: Merges the specified AOSP tag in a ROM source in all repos that are not tracked directly from AOSP
 

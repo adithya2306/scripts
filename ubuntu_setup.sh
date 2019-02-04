@@ -1,10 +1,10 @@
 #!/bin/bash
 #
-# Script to set up Ubuntu 18.04+ Google Cloud
-# server for android ROM compiling
+# Script to set up an Ubuntu 18.04+ server or PC
+# (with minimum 8GB RAM, 4 cores CPU) for android ROM compiling
 #
 # Usage:
-#	./gcloud_setup.sh
+#	./ubuntu_setup.sh
 #
 
 # Go to home dir
@@ -68,6 +68,9 @@ source ~/.profile
 source ~/.bashrc
 echo "Done"
 
+###
+### IMPORTANT: REPLACE WITH YOUR PERSONAL DETAILS
+###
 # Configure git
 echo -e "\n================== CONFIGURING GIT ==================\n"
 git config --global user.email "gh0strider.2k18.reborn@gmail.com"
