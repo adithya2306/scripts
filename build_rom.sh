@@ -74,7 +74,7 @@ schedtool -B -n 1 -e ionice -n 1 make -j$(($(nproc --all) * 2)) $MAKE_TARGET
 result=$?
 
 if [ $result -eq 0 ] && [[ $MAKE_TARGET != "bootimage" ]]; then
-    echo -e "\nROM compiled succesfully :-) Now uploading ROM zip to transfer.sh ...\n"
+    echo -e "\nROM compiled succesfully :-) \n"
 
     if [ $(ls $OUT_DIR/target/product/$DEVICE/*.zip | wc -l) -gt 1 ]; then
         zippath=$(sed "s/\.md5sum//" <<< $(ls $OUT_DIR/target/product/$DEVICE/*.md5sum))
@@ -86,6 +86,7 @@ if [ $result -eq 0 ] && [[ $MAKE_TARGET != "bootimage" ]]; then
         echo -e "Uploading ROM to Google Drive using gdrive CLI ..."
         gdrive upload --share $zippath
     else
+        echo "Uploading ROM zip to transfer.sh..."
         echo -e "ROM zip uploaded succesfully to $(curl -sT $zippath https://transfer.sh/$(basename $zippath))"
     fi
 
