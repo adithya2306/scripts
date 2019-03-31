@@ -22,6 +22,11 @@
 # output dir respectively. Defaults to "./out" and "~/.ccache" respectively. They should not contain spaces in between.
 #
 
+###
+### TODO: Switch to space-seperated proper command-line arguments
+### (https://stackoverflow.com/questions/192249/how-do-i-parse-command-line-arguments-in-bash)
+###
+
 if [[ -z "$1" ]]; then echo "ERROR: Lunch command not specified! Aborting ..."; exit 1; fi
 
 LUNCH=$1
@@ -55,7 +60,7 @@ fi
 export USE_CCACHE=1
 export CCACHE_NOCOMPRESS=true
 
-echo -e "\nDevice: $DEVICE \nROM Source directory: $(pwd) \nCCACHE directory: $CCACHE_DIR \nOutput directory: $OUT_DIR \n"
+echo -e "\nDevice: $DEVICE \nROM Source directory: $(pwd) \nCCACHE directory: $CCACHE_DIR \nOutput directory: $OUT_DIR \nMake target: $MAKE_TARGET \n"
 
 if [[ $BUILD_TYPE = "clean" ]]; then
     echo -e "Clean build selected. Clearing outdir\n"
