@@ -8,6 +8,7 @@
 #
 
 # Go to home dir
+orig_dir=$(pwd)
 cd ~
 
 # Installing packages
@@ -57,7 +58,7 @@ export USE_CCACHE=1
 EOF
 
 # Add android sdk to path
-cat <<'EOF' >> ~/.profile
+cat <<'EOF' >> .profile
 
 # Add Android SDK platform tools to path
 if [ -d "$HOME/platform-tools" ] ; then
@@ -69,8 +70,8 @@ EOF
 sudo ln -sf /usr/share/zoneinfo/Asia/Calcutta /etc/localtime
 
 # Set env from .bashrc and .profile
-source ~/.profile
-source ~/.bashrc
+source .profile
+source .bashrc
 echo "Done"
 
 ###
@@ -88,3 +89,6 @@ echo "Done"
 
 # Done!
 echo -e "\nALL DONE. Now sync sauces & start baking! \n"
+
+# Go back to original dir
+cd $orig_dir
