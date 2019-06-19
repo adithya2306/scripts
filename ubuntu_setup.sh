@@ -14,7 +14,7 @@ cd ~
 # Installing packages
 echo -e "\n================== INSTALLING & CONFIGURING PACKAGES ==================\n"
 sudo apt-get update
-sudo apt-get install -y bc bison build-essential curl flex g++-multilib gcc-multilib git gnupg gperf imagemagick lib32ncurses5-dev lib32readline-dev lib32z1-dev liblz4-tool libncurses5-dev libsdl1.2-dev libwxgtk3.0-dev libxml2 libxml2-utils lzop pngcrush schedtool squashfs-tools xsltproc zip zlib1g-dev unzip openjdk-8-jdk python ccache libtinfo5
+sudo apt-get install -y bc bison build-essential curl flex g++-multilib gcc-multilib git gnupg gperf imagemagick lib32ncurses5-dev lib32readline-dev lib32z1-dev liblz4-tool libncurses5-dev libsdl1.2-dev libwxgtk3.0-dev libxml2 libxml2-utils lzop pngcrush schedtool squashfs-tools xsltproc zip zlib1g-dev unzip openjdk-8-jdk python ccache libtinfo5 repo
 sudo apt-get full-upgrade -y
 sudo apt-get autoremove -y
 
@@ -30,12 +30,6 @@ echo -e "\n================== INSTALLING ANDROID SDK ==================\n"
 wget https://dl.google.com/android/repository/platform-tools-latest-linux.zip
 unzip platform-tools-latest-linux.zip
 rm platform-tools-latest-linux.zip
-
-# Install repo
-echo -e "\n================== INSTALLING GIT-REPO ==================\n"
-wget https://storage.googleapis.com/git-repo-downloads/repo
-chmod a+x repo
-sudo install repo /usr/local/bin/repo
 
 # Install google drive command line tool
 echo -e "\n================== INSTALLING GDRIVE CLI ==================\n"
