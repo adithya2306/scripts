@@ -6,9 +6,11 @@ Feel free to fork it for your own use, and I'm open to PRs if you'd like to impr
 
 * `build_rom.sh`: Builds any android ROM for any device, and uploads it to transfer.sh
 
-* `clone_hals.sh`: Clones QCOM msm8916 HALs which I use to compile Android Pie ROMs for lettuce.
+* `clone_hals.sh`: Clones QCOM msm8916 HALs which I use to compile Android Pie ROMs for lettuce & A6020
 
 * `clone_bacon_repos.sh`: Clones my Android Pie device sources for bacon
+
+* `clone_A6020_repos.sh`: Clones my Android Pie device sources for A6020
 
 * `ubuntu_setup.sh`: Sets up an Ubuntu 18.04+ server or PC for android builds
 
