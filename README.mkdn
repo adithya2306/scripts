@@ -16,4 +16,6 @@ Feel free to fork it for your own use, and I'm open to PRs if you'd like to impr
 
 * `merge-aosp-tag.sh`: Merges the specified AOSP tag in a ROM source in all repos that are not tracked directly from AOSP
 
+* `jenkins-setup-gce.sh`: Set up jenkins at port 80 (HTTP port) in a GCE instance running Ubuntu
+
 __NOTE:__ Don't forget to `chmod a+x` the script before running it!
