@@ -4,7 +4,7 @@
 # on port 80 (HTTP port)
 #
 # Usage:
-#	  ./ubuntu_setup.sh
+#	  ./jenkins-setup-gce.sh
 #
 
 echo -e "\n=========== INSTALLING JENKINS AND FIREWALLD ===========\n"
@@ -19,8 +19,8 @@ sudo firewall-cmd --zone=public --change-interface=ens4 --permanent
 sudo firewall-cmd --zone=public --add-forward-port=port=80:proto=tcp:toport=8080 --permanent
 sudo firewall-cmd --runtime-to-permanent
 sudo firewall-cmd --reload
+sudo systemctl mask ebtables
 sudo systemctl restart firewalld
 sudo systemctl disable ebtables
-sudo systemctl mask ebtables
 
 echo -e "\nALL DONE. Jenkins now available at port 80\n"
