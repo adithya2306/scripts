@@ -3,7 +3,7 @@
 # Shell script to clone stable pie HALS for lettuce
 # NOTE: Only for ROMs with project pathmap support.
 
-HALS_REPO="https://github.com/lettuce-pie/LOS-16-hals"
+HALS_REPO="https://github.com/ghostrider-reborn/LOS-16-msm8916-hals"
 
 for i in "audio" "media" "display"
 do
