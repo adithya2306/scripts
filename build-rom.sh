@@ -24,6 +24,7 @@ if [[ $# -eq 0 ]]; then
 	echo "  -n, --custom-target            Set this if you are compiling something other"
 	echo "                                 than the flashable ROM zip, e.g. bootimage"
 	echo "  -c, --clean                    Perform a clean build"
+	echo "  -s, --sync                     Sync the sources (repo sync) before building"
 	echo "  -o, --out <path>               Full or relative path to the output directory"
 	echo "                                 Default: <ROM source root>/out"
 	echo "  -C, --ccache-dir <path>        Full or relative path to the ccache directory"
@@ -38,6 +39,7 @@ while [[ "$#" -gt 0 ]]; do case $1 in
 	-m|--make-target) MAKE_TARGET="$2"; shift;;
 	-n|--custom-target) CUSTOM=1;;
 	-c|--clean) CLEAN=1;;
+	-s|--sync) SYNC=1;;
 	-o|--out) OUT_DIR="$2"; shift;;
 	-C|--ccache-dir) CCACHE_DIR="$2"; shift;;
 	*) echo "Unknown parameter passed: $1"; exit 1;;
@@ -75,6 +77,14 @@ fi
 # Set the ccache and build output directories
 export CCACHE_DIR=$CCACHE_DIR
 export OUT_DIR_COMMON_BASE=$OUT_DIR
+
+# Do a quick repo sync if specified
+if [[ -n $SYNC ]]; then 
+	echo -e "Syncing sources ...\n"
+	if ! schedtool -B -n 1 -e ionice -n 1 "$(command -v repo)" sync -c -f --force-sync --optimized-fetch --no-tags --no-clone-bundle --prune -j8; then
+		echo -e "\nError occured while syncing! Continuing with the build ...\n"
+	fi
+fi
 
 # Do cleanup if user has specified it
 if [[ -n $CLEAN ]]; then echo -e "Clearing output directory ...\n"; rm -rf out; fi
