@@ -12,7 +12,7 @@
 # Set defaults
 MAKE_TARGET="bacon"
 CCACHE_DIR="$HOME/.ccache"
-OUT_DIR="out"
+OUT_DIR="$(pwd)/out"
 
 # Spit out usage info when there are no arguments
 if [[ $# -eq 0 ]]; then
@@ -46,10 +46,6 @@ esac; shift; done
 # Abort if lunch command isn't specified
 if [[ -z $LUNCH ]]; then echo "ERROR: Lunch command not specified! Aborting ..."; exit 1; fi
 
-# Set the ccache and build output directories
-export CCACHE_DIR=$CCACHE_DIR
-export OUT_DIR_COMMON_BASE=$OUT_DIR
-
 # Get the device name from the lunch command
 DEVICE=$(sed -e "s/^.*_//" -e "s/-.*//" <<< "$LUNCH")
 
@@ -63,10 +59,22 @@ fi
 # Enable CCACHE
 export USE_CCACHE=1
 export CCACHE_NOCOMPRESS=true
-ccache -M 500G
+ccache -M 500G &>/dev/null
 
 # Spit out some build info
 echo -e "\nDevice: $DEVICE \nROM Source directory: $(pwd) \nCCACHE directory: $CCACHE_DIR \nOutput directory: $OUT_DIR \nMake target: $MAKE_TARGET \n"
+
+# Create output directory if it doesn't exist
+if [ ! -d "$OUT_DIR" ]; then
+	if [ ! -d "$(pwd)/$OUT_DIR" ]; then
+		echo -e "Specified output directory doesn't exist! Creating one...\n"
+		mkdir "$OUT_DIR"
+	else OUT_DIR="$(pwd)/$OUT_DIR"; fi
+fi
+
+# Set the ccache and build output directories
+export CCACHE_DIR=$CCACHE_DIR
+export OUT_DIR_COMMON_BASE=$OUT_DIR
 
 # Do cleanup if user has specified it
 if [[ -n $CLEAN ]]; then echo -e "Clearing output directory ...\n"; rm -rf out; fi
