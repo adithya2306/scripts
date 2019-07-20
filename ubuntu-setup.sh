@@ -9,7 +9,7 @@
 
 # Go to home dir
 orig_dir=$(pwd)
-cd ~
+cd ~ || return
 
 # Installing packages
 echo -e "\n================== INSTALLING & CONFIGURING PACKAGES ==================\n"
@@ -40,20 +40,16 @@ sudo install gdrive /usr/local/bin/gdrive
 # Set up environment
 echo -e "\n================== SETTING UP ENV ==================\n"
 cat <<'EOF' >> ~/.bashrc
-
 # Upload a file to transfer.sh
 transfer() { if [ $# -eq 0 ]; then echo -e "No arguments specified. Usage:\necho transfer /tmp/test.md\ncat /tmp/test.md | transfer test.md"; return 1; fi 
 tmpfile=$( mktemp -t transferXXX ); if tty -s; then basefile=$(basename "$1" | sed -e 's/[^a-zA-Z0-9._-]/-/g'); curl --progress-bar --upload-file "$1" "https://transfer.sh/$basefile" >> $tmpfile; else curl --progress-bar --upload-file "-" "https://transfer.sh/$1" >> $tmpfile ; fi; cat $tmpfile; rm -f $tmpfile; } 
-
 # Super-fast repo sync
 repofastsync() { schedtool -B -n 1 -e ionice -n 1 `which repo` sync -c -f --force-sync --optimized-fetch --no-tags --no-clone-bundle --prune -j8 "$@"; }
-
 export USE_CCACHE=1
 EOF
 
 # Add android sdk to path
 cat <<'EOF' >> .profile
-
 # Add Android SDK platform tools to path
 if [ -d "$HOME/platform-tools" ] ; then
     PATH="$HOME/platform-tools:$PATH"
@@ -85,4 +81,4 @@ echo "Done"
 echo -e "\nALL DONE. Now sync sauces & start baking! \n"
 
 # Go back to original dir
-cd $orig_dir
+cd "$orig_dir" || return
