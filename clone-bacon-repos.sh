@@ -1,9 +1,9 @@
 #!/bin/bash
 # Script to clone my Android Pie device sources for bacon
 
-read -pr "Enter branch name of device tree (default lineage-16.0): " DEVICE_BRANCH
-read -pr "Enter branch name of remaining trees (default lineage-16.0): " BRANCH
-read -pr "Building LineageOS/based ROM ? (Y/N) (default Y): " IS_LINEAGE
+read -rp "Enter branch name of device tree (default lineage-16.0): " DEVICE_BRANCH
+read -rp "Enter branch name of remaining trees (default lineage-16.0): " BRANCH
+read -rp "Building LineageOS/based ROM ? (Y/N) (default Y): " IS_LINEAGE
 
 GITHUB='https://github.com/ghostrider-reborn'
 

@@ -12,7 +12,6 @@
 # Set defaults
 MAKE_TARGET="bacon"
 CCACHE_DIR="$HOME/.ccache"
-OUT_DIR="$(pwd)/out"
 
 # Spit out usage info when there are no arguments
 if [[ $# -eq 0 ]]; then
@@ -40,7 +39,7 @@ while [[ "$#" -gt 0 ]]; do case $1 in
 	-n|--custom-target) CUSTOM=1;;
 	-c|--clean) CLEAN=1;;
 	-s|--sync) SYNC=1;;
-	-o|--out) OUT_DIR="$2"; shift;;
+	-o|--out) OUTDIR="$2"; shift;;
 	-C|--ccache-dir) CCACHE_DIR="$2"; shift;;
 	*) echo "Unknown parameter passed: $1"; exit 1;;
 esac; shift; done
@@ -63,23 +62,16 @@ export USE_CCACHE=1
 export CCACHE_NOCOMPRESS=true
 ccache -M 500G &>/dev/null
 
-# Spit out some build info
-echo -e "\nDevice: $DEVICE \nROM Source directory: $(pwd) \nCCACHE directory: $CCACHE_DIR \nOutput directory: $OUT_DIR \nMake target: $MAKE_TARGET \n"
-
-# Create output directory if it doesn't exist
-if [ ! -d "$OUT_DIR" ]; then
-	if [ ! -d "$(pwd)/$OUT_DIR" ]; then
-		echo -e "Specified output directory doesn't exist! Creating one...\n"
-		mkdir "$OUT_DIR"
-	else OUT_DIR="$(pwd)/$OUT_DIR"; fi
-fi
-
 # Set the ccache and build output directories
-export CCACHE_DIR=$CCACHE_DIR
-export OUT_DIR_COMMON_BASE=$OUT_DIR
+export CCACHE_DIR
+if [[ -n $OUTDIR ]]; then export OUTDIR_COMMON_BASE=$OUTDIR
+else OUTDIR=$(pwd)/out; fi
+
+# Spit out some build info
+echo -e "\nDevice: $DEVICE \nROM Source directory: $(pwd) \nCCACHE directory: $CCACHE_DIR \nOutput directory: $OUTDIR \nMake target: $MAKE_TARGET \n"
 
 # Do a quick repo sync if specified
-if [[ -n $SYNC ]]; then 
+if [[ -n $SYNC ]]; then
 	echo -e "Syncing sources ...\n"
 	if ! schedtool -B -n 1 -e ionice -n 1 "$(command -v repo)" sync -c -f --force-sync --optimized-fetch --no-tags --no-clone-bundle --prune -j8; then
 		echo -e "\nError occured while syncing! Continuing with the build ...\n"
@@ -91,23 +83,15 @@ if [[ -n $CLEAN ]]; then echo -e "Clearing output directory ...\n"; rm -rf out; 
 
 # Aaaand... begin compilation!
 source build/envsetup.sh
+echo -e "\nStarting build ...\n"
+SECONDS=0	# Reset bash timer
 lunch "$LUNCH"
-
-# Equivalent of "mka" command, modified to use 2 x (no. of cores) threads for compilation
-if schedtool -B -n 1 -e ionice -n 1 make -j$(($(nproc --all) * 2)) "$MAKE_TARGET"; then
+if mka "$MAKE_TARGET"; then
 	if [[ -z $CUSTOM ]]; then
-		echo -e "\nROM compiled succesfully :-) \n"
+		echo -e "\nBuild completed succesfully in $((SECONDS / 60)) minute(s) and $((SECONDS % 60)) second(s) :-) \n"
 
-		# Get the path of the output zip. Few ROMs generate an intermediate otapackage zip
-		# along with the actual flashable zip, so in order to pick that one out, I'll be
-		# using a simple logic. Most of the ROMs that generate the intermediate zip also
-		# generate an md5sum of the actual flashable zip. I'll simply get the filename 
-		# of that md5sum and put .zip in front of it to get the actual zip's path! :)
-		if [ "$(ls "$OUT_DIR/target/product/$DEVICE/*.zip" | wc -l)" -gt 1 ]; then
-			zippath=$(sed "s/\.md5sum//" <<< "$(ls "$OUT_DIR"/target/product/"$DEVICE"/*.md5sum)")
-		else
-			zippath=$(ls "$OUT_DIR/target/product/$DEVICE/*.zip")
-		fi
+		zipdir=$(get_build_var PRODUCT_OUT)
+		zippath=$(ls "$zipdir"/*2019*.zip | tail -n -1)
 
 		# Upload the ROM to google drive if it's available, else upload to transfer.sh
 		if [ -x "$(command -v gdrive)" ]; then
@@ -117,17 +101,13 @@ if schedtool -B -n 1 -e ionice -n 1 make -j$(($(nproc --all) * 2)) "$MAKE_TARGET
 			if ! gdrive upload --share "$zippath"; then
 				echo -e "\nAn error occured while uploading to Google Drive."
 				echo "Uploading ROM zip to transfer.sh..."
-				echo "ROM zip uploaded succesfully to $(curl -sT "$zippath" https://transfer.sh/"$(basename "$zippath")")"
+				echo "ROM zip uploaded succesfully: $(curl -sT "$zippath" https://transfer.sh/"$(basename "$zippath")")"
 			fi
 		else
 			echo "Uploading ROM zip to transfer.sh..."
-			echo "ROM zip uploaded succesfully to $(curl -sT "$zippath" https://transfer.sh/"$(basename "$zippath")")"
+			echo "ROM zip uploaded succesfully: $(curl -sT "$zippath" https://transfer.sh/"$(basename "$zippath")")"
 		fi
-
-		# Move the zip to the root of the source to prevent conflicts in future builds
-		cp "$zippath" .
-		rm -rf "$OUT_DIR"/target/product/"$DEVICE"/*.zip*
-		echo -e "\nROM zip copied here; deleted from outdir. Good bye! \n"
+		echo -e "\n Good bye!"
 		exit 0
-	else echo -e "\n $MAKE_TARGET compiled succesfully :-) Good bye! \n"; fi
+	else echo -e "\n $MAKE_TARGET compiled succesfully in $((SECONDS / 60)) minute(s) and $((SECONDS % 60)) second(s) :-) Good bye! \n"; fi
 else echo -e "\nERROR OCCURED DURING COMPILATION :'( EXITING ... \n"; exit 1; fi

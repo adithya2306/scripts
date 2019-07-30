@@ -1,8 +1,8 @@
 #!/bin/bash
 # Script to clone my Android Pie device sources for A6020 (Lenovo K5)
 
-read -pr "Enter branch name of device tree (default 'pie'): " DEVICE_BRANCH
-read -pr "Enter branch name of remaining trees (default 'pie'): " BRANCH
+read -rp "Enter branch name of device tree (default 'pie'): " DEVICE_BRANCH
+read -rp "Enter branch name of remaining trees (default 'pie'): " BRANCH
 
 GITHUB='https://github.com/ghostrider-reborn'
 
