@@ -3,6 +3,9 @@
 # Script to set up an Ubuntu 16.04+ server or PC
 # (with minimum 8GB RAM, 4 cores CPU) for android ROM compiling
 #
+# IMPORTANT NOTICE: This script sets my personal git config, update 
+# it with your details before you run this script!
+#
 # Usage:
 #	./ubuntu_setup.sh
 #
@@ -14,13 +17,14 @@ cd ~ || return
 # Installing packages
 echo -e "\n================== INSTALLING & CONFIGURING PACKAGES ==================\n"
 sudo apt -qq update
-sudo apt install -y -qq bc bison build-essential curl flex g++-multilib gcc-multilib git gnupg gperf imagemagick lib32ncurses5-dev lib32readline-dev lib32z1-dev liblz4-tool libncurses5-dev libsdl1.2-dev libwxgtk3.0-dev libxml2 libxml2-utils lzop pngcrush schedtool squashfs-tools xsltproc zip zlib1g-dev unzip openjdk-8-jdk python ccache libtinfo5 repo android-tools-adb
 sudo apt full-upgrade -y -qq
-sudo apt autoremove -y -qq
-
-# Install Git LFS
 curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash
-sudo apt install -y -qq git-lfs
+sudo apt install -y -qq bc bison build-essential curl flex g++-multilib gcc-multilib git gnupg gperf \
+                        imagemagick lib32ncurses5-dev lib32readline-dev lib32z1-dev liblz4-tool \
+                        libncurses5-dev libsdl1.2-dev libwxgtk3.0-dev libxml2 libxml2-utils lzop pngcrush \
+                        schedtool squashfs-tools xsltproc zip zlib1g-dev unzip openjdk-8-jdk python ccache \
+                        libtinfo5 libncurses5 repo android-tools-adb git-lfs
+sudo apt autoremove -y -qq
 
 # CCache hax (unlimited ccache)
 ccache -M 500G
@@ -43,8 +47,10 @@ cat <<'EOF' >> ~/.bashrc
 # Upload a file to transfer.sh
 transfer() { if [ $# -eq 0 ]; then echo -e "No arguments specified. Usage:\necho transfer /tmp/test.md\ncat /tmp/test.md | transfer test.md"; return 1; fi 
 tmpfile=$( mktemp -t transferXXX ); if tty -s; then basefile=$(basename "$1" | sed -e 's/[^a-zA-Z0-9._-]/-/g'); curl --progress-bar --upload-file "$1" "https://transfer.sh/$basefile" >> $tmpfile; else curl --progress-bar --upload-file "-" "https://transfer.sh/$1" >> $tmpfile ; fi; cat $tmpfile; rm -f $tmpfile; } 
+
 # Super-fast repo sync
-repofastsync() { schedtool -B -n 1 -e ionice -n 1 `which repo` sync -c -f --force-sync --optimized-fetch --no-tags --no-clone-bundle --prune -j8 "$@"; }
+repofastsync() { schedtool -B -n 0 -e ionice -n 0 `which repo` sync -c -f --force-sync --optimized-fetch --no-tags --no-clone-bundle --prune -j$(nproc --all) "$@"; }
+
 export USE_CCACHE=1
 EOF
 
@@ -65,7 +71,7 @@ source .bashrc
 echo "Done"
 
 ###
-### IMPORTANT: REPLACE WITH YOUR PERSONAL DETAILS
+### IMPORTANT !!! REPLACE WITH YOUR PERSONAL DETAILS
 ###
 # Configure git
 echo -e "\n================== CONFIGURING GIT ==================\n"
