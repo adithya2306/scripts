@@ -23,7 +23,7 @@ sudo apt install -y -qq bc bison build-essential curl flex g++-multilib gcc-mult
                         imagemagick lib32ncurses5-dev lib32readline-dev lib32z1-dev liblz4-tool \
                         libncurses5-dev libsdl1.2-dev libwxgtk3.0-dev libxml2 libxml2-utils lzop pngcrush \
                         schedtool squashfs-tools xsltproc zip zlib1g-dev unzip openjdk-8-jdk python ccache \
-                        libtinfo5 libncurses5 repo android-tools-adb git-lfs
+                        libtinfo5 libncurses5 repo android-tools-adb git-lfs tmux
 sudo apt autoremove -y -qq
 
 # CCache hax (unlimited ccache)
