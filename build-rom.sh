@@ -4,7 +4,7 @@
 # Not recommended for retarded build butts.
 #
 # Usage (in root of source):
-# 	./build_rom.sh [options]
+# 	./build-rom.sh [options]
 #
 # See below for options.
 #
@@ -15,7 +15,7 @@ CCACHE_DIR="$HOME/.ccache"
 
 # Spit out usage info when there are no arguments
 if [[ $# -eq 0 ]]; then
-	echo -e "\nUsage: ./build_rom.sh [options]\n"
+	echo -e "\nUsage: ./build-rom.sh [options]\n"
 	echo "Options:"
 	echo "  -l, --lunch-command <value>    The lunch command e.g. lineage_A6020-userdebug"
 	echo "  -m, --make-target <value>      Compilation target name e.g. bacon or bootimage"
