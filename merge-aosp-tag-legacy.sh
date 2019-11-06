@@ -48,7 +48,7 @@ reset_branch () {
 }
 
 # Logic kanged from some similar script
-repos="$(grep 'remote="$REMOTE_NAME"' $ROM_PATH/.repo/manifests/$REPO_XML_PATH  | awk '{print $2}' | awk -F '"' '{print $2}')"
+repos="$(grep "remote=\"$REMOTE_NAME\"" $ROM_PATH/.repo/manifests/$REPO_XML_PATH  | awk '{print $2}' | awk -F '"' '{print $2}')"
 
 for files in success failed; do
     rm $files 2> /dev/null
