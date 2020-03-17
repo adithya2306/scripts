@@ -77,13 +77,14 @@ echo "Done"
 ###
 # Configure git
 echo -e "\n================== CONFIGURING GIT ==================\n"
-git config --global user.email "gh0strider.2k18.reborn@gmail.com"
+git config --global user.email "radithya2002@gmail.com"
 git config --global user.name "Adithya R"
 git config --global alias.cp 'cherry-pick'
 git config --global alias.c 'commit'
 git config --global alias.f 'fetch'
 git config --global alias.rb 'rebase'
 git config --global alias.rs 'reset'
+git config --global alias.ck 'checkout'
 git config --global credential.helper 'cache --timeout=9999999'
 echo "Done"
 
