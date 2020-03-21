@@ -52,6 +52,9 @@ tmpfile=$( mktemp -t transferXXX ); if tty -s; then basefile=$(basename "$1" | s
 # Super-fast repo sync
 repofastsync() { schedtool -B -n 0 -e ionice -n 0 `which repo` sync -c --force-sync --optimized-fetch --no-tags --no-clone-bundle --prune -j$(nproc --all) "$@"; }
 
+# List lib dependencies of any lib/bin
+list_blob_deps() { readelf -d $1 | grep "\(NEEDED\)" | sed -r "s/.*\[(.*)\]/\1/"; }
+
 export USE_CCACHE=1
 EOF
 
