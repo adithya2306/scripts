@@ -56,6 +56,7 @@ repofastsync() { schedtool -B -n 0 -e ionice -n 0 `which repo` sync -c --force-s
 list_blob_deps() { readelf -d $1 | grep "\(NEEDED\)" | sed -r "s/.*\[(.*)\]/\1/"; }
 
 export USE_CCACHE=1
+export CCACHE_EXEC=/usr/bin/ccache
 EOF
 
 # Add android sdk to path
