@@ -21,10 +21,22 @@ sudo apt full-upgrade -y -qq
 curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash
 sudo apt install -y -qq bc bison build-essential curl flex g++-multilib gcc-multilib git gnupg gperf \
                         imagemagick lib32ncurses5-dev lib32readline-dev lib32z1-dev liblz4-tool \
-                        libncurses5-dev libsdl1.2-dev libwxgtk3.0-dev libxml2 libxml2-utils lzop pngcrush \
+                        libncurses5-dev libsdl1.2-dev libxml2 libxml2-utils lzop pngcrush \
                         schedtool squashfs-tools xsltproc zip zlib1g-dev unzip openjdk-8-jdk python ccache \
-                        libtinfo5 libncurses5 repo android-tools-adb git-lfs tmux libssl-dev
+                        libtinfo5 libncurses5 android-tools-adb git-lfs tmux libssl-dev
+
+if [[ $(lsb_release -rs) == "20"* ]]; then
+sudo apt install -y -qq libwxgtk3.0-gtk3-dev
+else
+sudo apt install -y -qq libwxgtk3.0-dev
+fi
+
 sudo apt autoremove -y -qq
+
+# Install git-repo
+mkdir bin
+curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
+chmod a+x ~/bin/repo
 
 # CCache hax (unlimited ccache)
 ccache -M 500G
