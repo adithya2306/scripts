@@ -49,9 +49,10 @@ rm platform-tools-latest-linux.zip
 
 # Install google drive command line tool
 echo -e "\n================== INSTALLING GDRIVE CLI ==================\n"
-wget -O gdrive "https://docs.google.com/uc?id=0B3X9GlR6EmbnWksyTEtCM0VfaFE&export=download"
+wget https://raw.githubusercontent.com/usmanmughalji/gdriveupload/master/gdrive
 chmod a+x gdrive
 sudo install gdrive /usr/local/bin/gdrive
+rm gdrive
 
 # Set up environment
 echo -e "\n================== SETTING UP ENV ==================\n"
