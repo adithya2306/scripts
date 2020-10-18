@@ -69,6 +69,9 @@ repofastsync() { schedtool -B -n 0 -e ionice -n 0 `which repo` sync -c -q --forc
 # List lib dependencies of any lib/bin
 list_blob_deps() { readelf -d $1 | grep "\(NEEDED\)" | sed -r "s/.*\[(.*)\]/\1/"; }
 
+# Prevent others from writing shit on to my terminal
+mesg n
+
 export USE_CCACHE=1
 export CCACHE_EXEC=/usr/bin/ccache
 EOF
@@ -110,6 +113,9 @@ git config --global review.review.lineageos.org.username "ghostrider-reborn"
 git config --global review.review.arrowos.net.username "ghostrider_reborn"
 echo "Done"
 fi
+
+# Prevent others from writing shit on to my terminal
+mesg n
 
 # Done!
 echo -e "\nALL DONE. Now sync sauces & start baking! \n"
