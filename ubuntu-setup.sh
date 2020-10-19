@@ -97,10 +97,21 @@ echo "Done"
 ### IMPORTANT !!! REPLACE WITH YOUR PERSONAL DETAILS IF NECESSARY
 ###
 # Configure git
-if [[ $USER == "adithya" ]]; then
 echo -e "\n================== CONFIGURING GIT ==================\n"
+
+if [[ $USER == "adithya" ]]; then
 git config --global user.email "gh0strider.2k18.reborn@gmail.com"
 git config --global user.name "Adithya R"
+git config --global review.gerrit.aospa.co.username "ghostrider-reborn"
+git config --global review.review.lineageos.org.username "ghostrider-reborn"
+git config --global review.review.arrowos.net.username "ghostrider_reborn"
+fi
+
+if [[ $USER == "panda" ]]; then
+git config --global user.name "Jyotiraditya"
+git config --global user.email "imjyotiraditya@pm.me"
+fi
+
 git config --global alias.cp 'cherry-pick'
 git config --global alias.c 'commit'
 git config --global alias.f 'fetch'
@@ -108,11 +119,7 @@ git config --global alias.rb 'rebase'
 git config --global alias.rs 'reset'
 git config --global alias.ck 'checkout'
 git config --global credential.helper 'cache --timeout=99999999'
-git config --global review.gerrit.aospa.co.username "ghostrider-reborn"
-git config --global review.review.lineageos.org.username "ghostrider-reborn"
-git config --global review.review.arrowos.net.username "ghostrider_reborn"
 echo "Done"
-fi
 
 # Prevent others from writing shit on to my terminal
 mesg n
