@@ -57,7 +57,13 @@ rm gdrive
 
 # Set up environment
 echo -e "\n================== SETTING UP ENV ==================\n"
-cat <<'EOF' >> ~/.bashrc
+if [[ $SHELL = *zsh* ]]; then
+sh_rc="$HOME/.zshrc"
+else
+sh_rc="$HOME/.bashrc"
+fi
+
+cat <<'EOF' >> $sh_rc
  
 # Upload a file to transfer.sh
 transfer() { if [ $# -eq 0 ]; then echo -e "No arguments specified. Usage:\necho transfer /tmp/test.md\ncat /tmp/test.md | transfer test.md"; return 1; fi 
@@ -90,7 +96,7 @@ sudo ln -sf /usr/share/zoneinfo/Asia/Calcutta /etc/localtime
 
 # Set env from .bashrc and .profile
 source .profile
-source .bashrc
+source $sh_rc
 echo "Done"
 
 ###
