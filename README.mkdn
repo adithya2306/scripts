@@ -1,6 +1,9 @@
 Scripts
 =========
 
+Usage:
+ `source script-name.sh`
+
 Bunch of homemade bash scripts which I often use to make my life easier :)  
 Feel free to fork it for your own use, and I'm open to PRs if you'd like to improve something or fix issues!
 
