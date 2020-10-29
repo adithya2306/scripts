@@ -24,3 +24,5 @@ Feel free to fork it for your own use, and I'm open to PRs if you'd like to impr
 * `jenkins-setup-gce.sh`: Set up jenkins at port 80 (HTTP port) in a GCE instance running Ubuntu
 
 * `merge-aosp-tag-legacy.sh`: Merge specified AOSP tag in [AOSP-LEGACY](https://github.com/AOSP-LEGACY) ROM source; enhanced version of `merge-aosp-tag.sh`
+
+* `merge-caf-tag-ginkgo.sh`: Merge specified CAF QSSI or vendor tag in [caf-ginkgo](https://github.com/caf-ginkgo) ROM source; enhanced rewritten version of `merge-caf-tag.sh`. Also automatically pushes succesfully merged repos.
