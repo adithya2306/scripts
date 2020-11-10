@@ -46,7 +46,7 @@ for path in $(cat .temp); do
 		continue
 	fi
 
-	if grep -q $path manifest/$VENDOR.xml; then
+	if ! grep -q $path manifest/$VENDOR.xml; then
 		echo "${red}$path not found in vendor manifest! Skipping..."
 		continue
 	fi
