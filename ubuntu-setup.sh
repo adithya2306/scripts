@@ -99,6 +99,9 @@ source .profile
 source $sh_rc
 echo "Done"
 
+# Increase tmux scrollback buffer size
+echo "set-option -g history-limit 6000" >> ~/.tmux.conf
+
 ###
 ### IMPORTANT !!! REPLACE WITH YOUR PERSONAL DETAILS IF NECESSARY
 ###
