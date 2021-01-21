@@ -78,6 +78,7 @@ list_blob_deps() { readelf -d $1 | grep "\(NEEDED\)" | sed -r "s/.*\[(.*)\]/\1/"
 # Prevent others from writing shit on to my terminal
 mesg n
 
+export TZ='Asia/Kolkata'
 export USE_CCACHE=1
 export CCACHE_EXEC=/usr/bin/ccache
 EOF
@@ -90,9 +91,6 @@ if [ -d "$HOME/platform-tools" ] ; then
     PATH="$HOME/platform-tools:$PATH"
 fi
 EOF
-
-# Set time zone to IST
-sudo ln -sf /usr/share/zoneinfo/Asia/Calcutta /etc/localtime
 
 # Set env from .bashrc and .profile
 source .profile
