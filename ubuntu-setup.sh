@@ -114,8 +114,8 @@ git config --global review.review.arrowos.net.username "ghostrider_reborn"
 fi
 
 if [[ $USER == "panda" ]]; then
-git config --global user.name "Jyotiraditya"
-git config --global user.email "imjyotiraditya@pm.me"
+git config --global user.name "Jyotiraditya Panda"
+git config --global user.email "jyotiraditya@aospa.co"
 fi
 
 git config --global alias.cp 'cherry-pick'
