@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Script to set up an Ubuntu 20.04+ server or PC
+# Script to set up an Ubuntu 20.04+ server
 # (with minimum 16GB RAM, 4 cores CPU) for android ROM compiling
 #
 # Sudo access is mandatory to run this script
@@ -17,7 +17,7 @@ orig_dir=$(pwd)
 cd $HOME
 
 echo -e "Installing and updating packages...\n"
-sudo apt -qq update
+sudo apt update -qq
 sudo apt full-upgrade -y -qq
 sudo apt install -y -qq git-core gnupg flex bc bison build-essential zip curl zlib1g-dev gcc-multilib \
                         g++-multilib libc6-dev-i386 lib32ncurses5-dev x11proto-core-dev libx11-dev jq \
@@ -25,6 +25,7 @@ sudo apt install -y -qq git-core gnupg flex bc bison build-essential zip curl zl
                         python2 python3 python3-pip python3-dev python-is-python3 schedtool ccache libtinfo5 \
                         libncurses5 lzop tmux libssl-dev neofetch patchelf apktool dos2unix git-lfs default-jdk
 sudo apt autoremove -y -qq
+sudo apt purge snapd -y -qq
 
 wget -q https://storage.googleapis.com/git-repo-downloads/repo
 chmod a+x repo
