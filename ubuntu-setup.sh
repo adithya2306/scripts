@@ -23,7 +23,8 @@ sudo apt install -y -qq git-core gnupg flex bc bison build-essential zip curl zl
                         g++-multilib libc6-dev-i386 lib32ncurses5-dev x11proto-core-dev libx11-dev jq \
                         lib32z1-dev libgl1-mesa-dev libxml2-utils xsltproc unzip fontconfig imagemagick \
                         python2 python3 python3-pip python3-dev python-is-python3 schedtool ccache libtinfo5 \
-                        libncurses5 lzop tmux libssl-dev neofetch patchelf apktool dos2unix git-lfs default-jdk
+                        libncurses5 lzop tmux libssl-dev neofetch patchelf apktool dos2unix git-lfs default-jdk \
+                        libxml-simple-perl
 sudo apt autoremove -y -qq
 sudo apt purge snapd -y -qq
 
