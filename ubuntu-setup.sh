@@ -89,6 +89,9 @@ echo -e "Done."
 # Increase tmux scrollback buffer size
 echo "set-option -g history-limit 6000" >> .tmux.conf
 
+# Increase maximum ccache size
+ccache -M 100G
+
 ###
 ### IMPORTANT !!! REPLACE WITH YOUR PERSONAL DETAILS IF NECESSARY
 ###
