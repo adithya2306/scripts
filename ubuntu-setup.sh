@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # Script to set up an Ubuntu 20.04+ server
-# (with minimum 16GB RAM, 4 cores CPU) for android ROM compiling
+# (with minimum 16GB RAM, 8 threads CPU) for android ROM compiling
 #
 # Sudo access is mandatory to run this script
 #
@@ -16,7 +16,7 @@
 orig_dir=$(pwd)
 cd $HOME
 
-echo -e "Installing and updating packages...\n"
+echo -e "Installing and updating APT packages...\n"
 sudo apt update -qq
 sudo apt full-upgrade -y -qq
 sudo apt install -y -qq git-core gnupg flex bc bison build-essential zip curl zlib1g-dev gcc-multilib \
@@ -27,16 +27,18 @@ sudo apt install -y -qq git-core gnupg flex bc bison build-essential zip curl zl
                         libxml-simple-perl
 sudo apt autoremove -y -qq
 sudo apt purge snapd -y -qq
+echo -e "\nDone."
 
+echo -e "\nInstalling git-repo..."
 wget -q https://storage.googleapis.com/git-repo-downloads/repo
 chmod a+x repo
 sudo install repo /usr/local/bin/repo
 rm repo
-echo -e "\nDone."
+echo -e "Done."
 
 echo -e "\nInstalling Android SDK platform tools..."
 wget -q https://dl.google.com/android/repository/platform-tools-latest-linux.zip
-unzip platform-tools-latest-linux.zip &> /dev/null
+unzip -qq platform-tools-latest-linux.zip
 rm platform-tools-latest-linux.zip
 echo -e "Done."
 
@@ -45,6 +47,17 @@ wget -q https://raw.githubusercontent.com/usmanmughalji/gdriveupload/master/gdri
 chmod a+x gdrive
 sudo install gdrive /usr/local/bin/gdrive
 rm gdrive
+echo -e "Done."
+
+echo -e "\nInstalling apktool and JADX..."
+mkdir -p bin
+wget -q https://bitbucket.org/iBotPeaches/apktool/downloads/apktool_2.6.0.jar -O bin/apktool.jar
+echo 'alias apktool="java -jar $HOME/bin/apktool.jar"' >> .bashrc
+
+wget -q https://github.com/skylot/jadx/releases/download/v1.2.0/jadx-1.2.0.zip
+unzip -qq jadx-1.2.0.zip -d jadx
+rm jadx-1.2.0.zip
+echo 'export PATH="$HOME/jadx/bin:$PATH"' >> .bashrc
 echo -e "Done."
 
 echo -e "\nSetting up shell environment..."
