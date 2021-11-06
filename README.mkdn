@@ -1,19 +1,13 @@
 Scripts
 =========
 
-Usage:
- `source script-name.sh`
+Usage: `source script-name.sh`  
+OR `curl -L https://github.com/ghostrider-reborn/scripts/raw/master/script-name.sh | bash`
 
 Bunch of homemade bash scripts which I often use to make my life easier :)  
 Feel free to fork it for your own use, and I'm open to PRs if you'd like to improve something or fix issues!
 
 * `build-rom.sh`: Builds any android ROM for any device, and uploads it to transfer.sh
-
-* `clone-hals.sh`: Clones QCOM msm8916 HALs which I use to compile Android Pie ROMs for lettuce & A6020
-
-* `clone-bacon-repos.sh`: Clones my Android Pie device sources for bacon
-
-* `clone-A6020-repos.sh`: Clones my Android Pie device sources for A6020
 
 * `ubuntu-setup.sh`: Sets up an Ubuntu 18.04+ server or PC for android builds
 
