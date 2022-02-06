@@ -99,66 +99,77 @@ function helptree() {
     msg "Kernel $version not supported! Only msm-5.4 and msm-4.14 are supported as of now."
     return
   fi
+  if [[ -z $3 ]]; then
+    spec=all
+  else
+    spec=$3
+  fi
   if [[ $2 = "add" ]]; then
     tree_status="Adding"
     commit_status="Import from"
   else
     tree_status="Updating"
     commit_status="Merge"
-    msg "Merging kernel as of $1.."
-    git fetch https://source.codeaurora.org/quic/la/kernel/msm-$version $1
-    git merge FETCH_HEAD -m "Merge tag '$1' of msm-$version"
+    if [[ $spec = "all" ]]; then
+      msg "Merging kernel as of $1.."
+      git fetch https://source.codeaurora.org/quic/la/kernel/msm-$version $1
+      git merge FETCH_HEAD -m "Merge tag '$1' of msm-$version"
+    fi
   fi
-  for i in qcacld-3.0 qca-wifi-host-cmn fw-api; do
-    msg "$tree_status $i subtree as of $1..."
-    git subtree $2 -P drivers/staging/$i -m "$i: $commit_status tag '$1'" \
-      https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/$i $1
-  done
-  msg "$tree_status audio-kernel subtree as of $1..."
-  git subtree $2 -P techpack/audio -m "techpack: audio: $commit_status tag '$1'" \
-    https://source.codeaurora.org/quic/la/platform/vendor/opensource/audio-kernel $1
-  if [[ $version = "5.4" ]]; then
-    msg "$tree_status camera-kernel subtree as of $1..."
-    git subtree $2 -P techpack/camera -m "techpack: camera: $commit_status tag '$1'" \
-      https://source.codeaurora.org/quic/la/platform/vendor/opensource/camera-kernel $1
-    msg "$tree_status dataipa subtree as of $1..."
-    git subtree $2 -P techpack/dataipa -m "techpack: dataipa: $commit_status tag '$1'" \
-      https://source.codeaurora.org/quic/la/platform/vendor/opensource/dataipa $1
-    msg "$tree_status datarmnet subtree as of $1..."
-    git subtree $2 -P techpack/datarmnet -m "techpack: datarmnet: $commit_status tag '$1'" \
-      https://source.codeaurora.org/quic/la/platform/vendor/qcom/opensource/datarmnet $1
-    msg "$tree_status datarmnet-ext subtree as of $1..."
-    git subtree $2 -P techpack/datarmnet-ext -m "techpack: datarmnet-ext: $commit_status tag '$1'" \
-      https://source.codeaurora.org/quic/la/platform/vendor/qcom/opensource/datarmnet-ext $1
-    msg "$tree_status display-drivers subtree as of $1..."
-    git subtree $2 -P techpack/display -m "techpack: display: $commit_status tag '$1'" \
-      https://source.codeaurora.org/quic/la/platform/vendor/opensource/display-drivers $1
-    msg "$tree_status video-driver subtree as of $1..."
-    git subtree $2 -P techpack/video -m "techpack: video: $commit_status tag '$1'" \
-      https://source.codeaurora.org/quic/la/platform/vendor/opensource/video-driver $1
-  elif [[ $version = "4.14" ]]; then
-    if [[ $2 = "add" ]] || [ -d "techpack/data" ]; then
-      msg "$tree_status data-kernel as of $1..."
-      git subtree $2 -P techpack/data -m "techpack: data: $commit_status tag '$1'"  \
-        https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/data-kernel $1
+  if [[ $spec = "wifi" || $spec = "all" ]]; then
+    for i in qcacld-3.0 qca-wifi-host-cmn fw-api; do
+      msg "$tree_status $i subtree as of $1..."
+      git subtree $2 -P drivers/staging/$i -m "$i: $commit_status tag '$1'" \
+        https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/$i $1
+    done
+  fi
+  if [[ $spec = "techpack" || $spec = "all" ]]; then
+    msg "$tree_status audio-kernel subtree as of $1..."
+    git subtree $2 -P techpack/audio -m "techpack: audio: $commit_status tag '$1'" \
+      https://source.codeaurora.org/quic/la/platform/vendor/opensource/audio-kernel $1
+    if [[ $version = "5.4" ]]; then
+      msg "$tree_status camera-kernel subtree as of $1..."
+      git subtree $2 -P techpack/camera -m "techpack: camera: $commit_status tag '$1'" \
+        https://source.codeaurora.org/quic/la/platform/vendor/opensource/camera-kernel $1
+      msg "$tree_status dataipa subtree as of $1..."
+      git subtree $2 -P techpack/dataipa -m "techpack: dataipa: $commit_status tag '$1'" \
+        https://source.codeaurora.org/quic/la/platform/vendor/opensource/dataipa $1
+      msg "$tree_status datarmnet subtree as of $1..."
+      git subtree $2 -P techpack/datarmnet -m "techpack: datarmnet: $commit_status tag '$1'" \
+        https://source.codeaurora.org/quic/la/platform/vendor/qcom/opensource/datarmnet $1
+      msg "$tree_status datarmnet-ext subtree as of $1..."
+      git subtree $2 -P techpack/datarmnet-ext -m "techpack: datarmnet-ext: $commit_status tag '$1'" \
+        https://source.codeaurora.org/quic/la/platform/vendor/qcom/opensource/datarmnet-ext $1
+      msg "$tree_status display-drivers subtree as of $1..."
+      git subtree $2 -P techpack/display -m "techpack: display: $commit_status tag '$1'" \
+        https://source.codeaurora.org/quic/la/platform/vendor/opensource/display-drivers $1
+      msg "$tree_status video-driver subtree as of $1..."
+      git subtree $2 -P techpack/video -m "techpack: video: $commit_status tag '$1'" \
+        https://source.codeaurora.org/quic/la/platform/vendor/opensource/video-driver $1
+    elif [[ $version = "4.14" ]]; then
+      if [[ $2 = "add" ]] || [ -d "techpack/data" ]; then
+        msg "$tree_status data-kernel as of $1..."
+        git subtree $2 -P techpack/data -m "techpack: data: $commit_status tag '$1'"  \
+          https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/data-kernel $1
+      fi
     fi
   fi
 }
 
 function addtree() {
   if [[ -z $1 ]]; then
-    msg "Usage: addtree <tag>"
+    msg "Usage: addtree <tag> [optional: spec]"
     return
   fi
-  helptree $1 add
+  helptree $1 add $2
 }
 
 function updatetree() {
   if [[ -z $1 ]]; then
-    msg "Usage: updatetree <tag>"
+    msg "Usage: updatetree <tag> [optional: spec]"
     return
   fi
-  helptree $1 pull
+  helptree $1 pull $2
 }
 EOF
 
