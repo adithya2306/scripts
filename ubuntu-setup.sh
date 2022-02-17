@@ -24,7 +24,7 @@ sudo apt install -y -qq git-core gnupg flex bc bison build-essential zip curl zl
                         lib32z1-dev libgl1-mesa-dev libxml2-utils xsltproc unzip fontconfig imagemagick \
                         python2 python3 python3-pip python3-dev python-is-python3 schedtool ccache libtinfo5 \
                         libncurses5 lzop tmux libssl-dev neofetch patchelf apktool dos2unix git-lfs default-jdk \
-                        libxml-simple-perl
+                        libxml-simple-perl ripgrep
 sudo apt autoremove -y -qq
 sudo apt purge snapd -y -qq
 echo -e "\nDone."
