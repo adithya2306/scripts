@@ -212,6 +212,7 @@ fi
 git config --global alias.cp 'cherry-pick'
 git config --global alias.c 'commit'
 git config --global alias.f 'fetch'
+git config --global alias.m 'merge'
 git config --global alias.rb 'rebase'
 git config --global alias.rs 'reset'
 git config --global alias.ck 'checkout'
