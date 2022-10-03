@@ -79,6 +79,8 @@ export TZ='Asia/Kolkata'
 export USE_CCACHE=1
 export CCACHE_EXEC=/usr/bin/ccache
 
+alias gup="gdrive upload --share"
+
 function msg() {
   echo -e "\e[1;32m$1\e[0m"
 }
