@@ -175,6 +175,14 @@ export PATH="$HOME/.local/bin:$HOME/bin:$PATH"
 
 eval $(thefuck --alias)
 
+function f() {
+    if [ -z "$2" ]; then find | grep $1
+    elif [ "$1" = "-i" ]; then
+        if [ ! -z "$3" ]; then find $3 | grep -i $2
+        else find  | grep -i $2; fi
+    else find $2 | grep $1; fi
+}
+
 # alias gup="gdrive upload --share"
 function gup() {
     [ -z "$1" ] && echo "Error: File not specified!" && return
