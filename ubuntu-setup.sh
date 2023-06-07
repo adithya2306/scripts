@@ -231,6 +231,7 @@ if [[ $USER == "adithya" ]]; then
 git config --global user.email "gh0strider.2k18.reborn@gmail.com"
 git config --global user.name "Adithya R"
 git config --global review.gerrit.aospa.co.username "ghostrider-reborn"
+git config --global review.gerrit.libremobileos.com.username "ghostrider-reborn"
 git config --global review.review.lineageos.org.username "ghostrider-reborn"
 echo "export ARROW_GERRIT_USER=ghostrider_reborn" >> $sh_rc
 fi
