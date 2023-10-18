@@ -19,7 +19,7 @@ BLACKLIST="packages/apps/DeskClock"
 
 # verify tag
 if [ -z "$1" ]; then
-    echo -e "Unspecified tag!\nUsage: ./manifest/merge-tag.sh <TAG>"
+    echo -e "Unspecified tag!\nUsage: ./merge.sh <TAG>"
     exit 1
 else
     TAG="$1"
@@ -64,6 +64,7 @@ for repo in $REPOS; do echo;
     fi
 
     git -C $repo checkout -q $BRANCH &> /dev/null || echo "${red}$repo checkout failed!"
+    git -C $repo reset --hard $REMOTE/$BRANCH &> /dev/null
 
     if ! git -C $repo fetch -q https://android.googlesource.com/$name $TAG &> /dev/null; then
         echo "${red}$repo fetch failed!"
