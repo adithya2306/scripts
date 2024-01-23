@@ -23,7 +23,7 @@ sudo apt install -y -qq git-core gnupg flex bc bison build-essential zip curl zl
                         g++-multilib libc6-dev-i386 lib32ncurses5-dev x11proto-core-dev libx11-dev jq \
                         lib32z1-dev libgl1-mesa-dev libxml2-utils xsltproc unzip fontconfig imagemagick \
                         python2 python3 python3-pip python3-dev python-is-python3 schedtool ccache libtinfo5 \
-                        libncurses5 lzop tmux libssl-dev neofetch patchelf apktool dos2unix git-lfs default-jdk \
+                        libncurses5 lzop tmux libssl-dev neofetch patchelf dos2unix git-lfs default-jdk \
                         libxml-simple-perl ripgrep rclone
 sudo apt autoremove -y -qq
 sudo apt purge snapd -y -qq
@@ -58,7 +58,7 @@ fi
 
 echo -e "\nInstalling apktool and JADX..."
 mkdir -p bin
-wget -q https://bitbucket.org/iBotPeaches/apktool/downloads/apktool_2.7.0.jar -O bin/apktool.jar
+wget -q https://bitbucket.org/iBotPeaches/apktool/downloads/apktool_2.9.3.jar -O bin/apktool.jar
 echo 'alias apktool="java -jar $HOME/bin/apktool.jar"' >> $sh_rc
 
 wget -q https://github.com/skylot/jadx/releases/download/v1.4.7/jadx-1.4.7.zip -O jadx.zip
@@ -198,6 +198,11 @@ function pdup() {
     echo -e "\nhttps://pixeldrain.com/u/$ID"
 }
 
+alias nnano=nano
+alias Nano=nano
+alias rgb="rg --binary"
+alias wgetc="wget --content-disposition"
+
 EOF
 
 # Add android sdk to path
@@ -219,7 +224,7 @@ echo -e "Done."
 echo "set-option -g history-limit 6000" >> .tmux.conf
 
 # Increase maximum ccache size
-ccache -M 100G
+ccache -M 50G
 
 ###
 ### IMPORTANT !!! REPLACE WITH YOUR PERSONAL DETAILS IF NECESSARY
@@ -248,6 +253,9 @@ git config --global alias.m 'merge'
 git config --global alias.rb 'rebase'
 git config --global alias.rs 'reset'
 git config --global alias.ck 'checkout'
+git config --global alias.rsh 'reset --hard'
+git config --global alias.logp 'log --pretty=oneline --abbrev-commit'
+git config --global alias.mlog 'merge --log=100'
 git config --global credential.helper 'cache --timeout=99999999'
 echo "Done."
 
