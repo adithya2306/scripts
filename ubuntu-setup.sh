@@ -61,7 +61,7 @@ mkdir -p bin
 wget -q https://bitbucket.org/iBotPeaches/apktool/downloads/apktool_2.9.3.jar -O bin/apktool.jar
 echo 'alias apktool="java -jar $HOME/bin/apktool.jar"' >> $sh_rc
 
-wget -q https://github.com/skylot/jadx/releases/download/v1.4.7/jadx-1.4.7.zip -O jadx.zip
+wget -q https://github.com/skylot/jadx/releases/download/v1.5.0/jadx-1.5.0.zip -O jadx.zip
 unzip -qq jadx.zip -d jadx
 rm jadx.zip
 echo 'export PATH="$HOME/jadx/bin:$PATH"' >> $sh_rc
