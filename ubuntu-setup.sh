@@ -258,6 +258,7 @@ git config --global alias.logp 'log --pretty=oneline --abbrev-commit'
 git config --global alias.mlog 'merge --log=100'
 git config --global credential.helper 'cache --timeout=99999999'
 git config --global url."git@github.com:".insteadOf "https://github.com/"
+git config --global push.autoSetupRemote true
 echo "Done."
 
 # Done!
